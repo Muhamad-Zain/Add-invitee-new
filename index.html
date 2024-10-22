@@ -75,62 +75,63 @@
     </style>
 </head>
 <body>
-    <h1>Tambah Data Pernikahan ke Firebase</h1>
+    <h2>Tambah Data Pernikahan ke Firebase wedings-1</h2>
+    <a href="https://console.firebase.google.com/project/invitee-next/database/invitee-next-default-rtdb/data/~2F" >Lihat data di firebase</a>
     <form id="dataForm">
         <!-- Form data yang sama seperti sebelumnya -->
         <h3>Nama</h3>
         <label for="mens">Nama Pria:</label>
-        <input type="text" id="mens" >
+        <input required type="text" id="mens" >
         <label for="grils">Nama Wanita:</label>
-        <input type="text" id="grils" >
+        <input required type="text" id="grils" >
         <h3>Nama Lengkap</h3>
         <label for="mens">Nama Pria:</label>
-        <input type="text" id="nameMens"  />
+        <input required type="text" id="nameMens"  />
         <label for="grils">Nama Wanita:</label>
-        <input type="text" id="nameGrils"  />
+        <input required type="text" id="nameGrils"  />
 
         <h3>Tanggal Pernikahan</h3>
         <label for="years">Tahun</label>
-        <input type="number" id="years" placeholder="yyyy"/>
+        <input required type="number" id="years" placeholder="yyyy"/>
         <label for="dateAll">tgl-thn Penikahan</label>
-        <input type="date" id="DateAll" />
+        <input required type="date" id="DateAll" />
 
         <h3>Akad</h3>
         <label for="akadDate">Tanggal Akad:</label>
-        <input type="text" id="akadDate" placeholder="dd" >
+        <input required type="text" id="akadDate" placeholder="dd" >
         <label for="akadDay">Hari Akad:</label>
-        <input type="text" id="akadDay" placeholder="Minggu" >
+        <input required type="text" id="akadDay" placeholder="Minggu" >
         <label for="akadMount">Bulan Akad:</label>
-        <input type="text" id="akadMount" placeholder="Jan" >
+        <input required type="text" id="akadMount" placeholder="Jan" >
         <label for="akadTime">Waktu Akad:</label>
-        <input type="text" id="akadTime" placeholder="00.00" >
+        <input required type="text" id="akadTime" placeholder="00.00" >
         <h3>Resepsi</h3>
         <label for="ResepsiDate">Tanggal Resepsi:</label>
-        <input type="text" id="ResepsiDate" placeholder="dd" >
+        <input required type="text" id="ResepsiDate" placeholder="dd" >
         <label for="ResepsiDay">Hari Resepsi:</label>
-        <input type="text" id="ResepsiDay" placeholder="Minggu" >
+        <input required type="text" id="ResepsiDay" placeholder="Minggu" >
         <label for="ResepsiMount">Bulan Resepsi:</label>
-        <input type="text" id="ResepsiMount" placeholder="Jan" >
+        <input required type="text" id="ResepsiMount" placeholder="Jan" >
         <label for="ResepsiTime">Waktu Resepsi:</label>
-        <input type="text" id="ResepsiTime" placeholder="00.00" >
+        <input required type="text" id="ResepsiTime" placeholder="00.00" >
 
         <h3>Lokasi</h3>
         <!-- <h3>Akad</h3> -->
         <label for="akad">Akad</label>
-        <input type="text" placeholder="Alamat Lengkap" id="locationAkad"/>
-        <input type="text" placeholder="https://location.maps" id="linkAkad" />
+        <input required type="text" placeholder="Alamat Lengkap" id="locationAkad"/>
+        <input required type="text" placeholder="https://location.maps" id="linkAkad" />
         
         <label for="resepsi">Resepsi</label>
-        <input type="text" placeholder="Alamat Lengkap" id="locationResepsi"/>
-        <input type="text" placeholder="https://location.maps" id="linkResepsi" />
+        <input required type="text" placeholder="Alamat Lengkap" id="locationResepsi"/>
+        <input required type="text" placeholder="https://location.maps" id="linkResepsi" />
 
         <h3>Nama Orang Tua</h3>
         <label for="parentMenst">Orang Tua laki-laki</label>
-        <input type="text" id="ortuMens" placeholder="ortu laki-laki" />
-        <input type="text" id="ortuPrmens" placeholder="ortu perempuan" />
+        <input required type="text" id="ortuMens" placeholder="ortu laki-laki" />
+        <input required type="text" id="ortuPrmens" placeholder="ortu perempuan" />
         <label for="parentMenst">Orang Tua perempuan</label>
-        <input type="text" id="ortuGrils" placeholder="ortu laki-laki" />
-        <input type="text" id="ortuPrGrils" placeholder="ortu perempuan" />
+        <input required type="text" id="ortuGrils" placeholder="ortu laki-laki" />
+        <input required type="text" id="ortuPrGrils" placeholder="ortu perempuan" />
 
         <h3>Gift</h3>
         <button type="button" id="giftButton" style=" background-color: rgb(11, 122, 167);" data-selected="false">Gift</button>
