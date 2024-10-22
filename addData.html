@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Data ke Firebase</title>
+    <!-- Tambahkan Firebase dari CDN dengan versi 'compat' -->
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics-compat.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 376px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 95%;
+            border-radius: 5px;
+            background-color: #dbd8d8;
+            border: none;
+            
+            padding: 10px;
+            /* margin-right: 10px; */
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border: 2px solid #302121;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hidden{
+            display: none !important;
+        }
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .close-button {
+            cursor: pointer;
+            float: right;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Tambah Data Pernikahan ke Firebase</h1>
+    <form id="dataForm">
+        <!-- Form data yang sama seperti sebelumnya -->
+        <h3>Nama</h3>
+        <label for="mens">Nama Pria:</label>
+        <input type="text" id="mens" >
+        <label for="grils">Nama Wanita:</label>
+        <input type="text" id="grils" >
+        <h3>Nama Lengkap</h3>
+        <label for="mens">Nama Pria:</label>
+        <input type="text" id="nameMens"  />
+        <label for="grils">Nama Wanita:</label>
+        <input type="text" id="nameGrils"  />
+
+        <h3>Tanggal Pernikahan</h3>
+        <label for="years">Tahun</label>
+        <input type="number" id="years" placeholder="yyyy"/>
+        <label for="dateAll">tgl-thn Penikahan</label>
+        <input type="date" id="DateAll" />
+
+        <h3>Akad</h3>
+        <label for="akadDate">Tanggal Akad:</label>
+        <input type="text" id="akadDate" placeholder="dd" >
+        <label for="akadDay">Hari Akad:</label>
+        <input type="text" id="akadDay" placeholder="Minggu" >
+        <label for="akadMount">Bulan Akad:</label>
+        <input type="text" id="akadMount" placeholder="Jan" >
+        <label for="akadTime">Waktu Akad:</label>
+        <input type="text" id="akadTime" placeholder="00.00" >
+        <h3>Resepsi</h3>
+        <label for="ResepsiDate">Tanggal Resepsi:</label>
+        <input type="text" id="ResepsiDate" placeholder="dd" >
+        <label for="ResepsiDay">Hari Resepsi:</label>
+        <input type="text" id="ResepsiDay" placeholder="Minggu" >
+        <label for="ResepsiMount">Bulan Resepsi:</label>
+        <input type="text" id="ResepsiMount" placeholder="Jan" >
+        <label for="ResepsiTime">Waktu Resepsi:</label>
+        <input type="text" id="ResepsiTime" placeholder="00.00" >
+
+        <h3>Lokasi</h3>
+        <!-- <h3>Akad</h3> -->
+        <label for="akad">Akad</label>
+        <input type="text" placeholder="Alamat Lengkap" id="locationAkad"/>
+        <input type="text" placeholder="https://location.maps" id="linkAkad" />
+        
+        <label for="resepsi">Resepsi</label>
+        <input type="text" placeholder="Alamat Lengkap" id="locationResepsi"/>
+        <input type="text" placeholder="https://location.maps" id="linkResepsi" />
+
+        <h3>Nama Orang Tua</h3>
+        <label for="parentMenst">Orang Tua laki-laki</label>
+        <input type="text" id="ortuMens" placeholder="ortu laki-laki" />
+        <input type="text" id="ortuPrmens" placeholder="ortu perempuan" />
+        <label for="parentMenst">Orang Tua perempuan</label>
+        <input type="text" id="ortuGrils" placeholder="ortu laki-laki" />
+        <input type="text" id="ortuPrGrils" placeholder="ortu perempuan" />
+
+        <h3>Gift</h3>
+        <button type="button" id="giftButton" style=" background-color: rgb(11, 122, 167);" data-selected="false">Gift</button>
+        <div class="hidden" id="giftContent"  >
+            <div id="savedGifts"></div>
+            <div style="display: flex;"  >
+                <div style="width: 30%; padding-right: 25px;">
+                    <label for="bankName">Nama Bank</label>
+                    <input type="text" placeholder="Nama Bank" id="nameBank" />
+                </div>
+                <div>
+                    <label for="noBank">Nomor</label>
+                <input type="number" placeholder="Masukkan Rekening" id="noRek" />
+                </div>
+            </div>
+            <div id="savedGifts"></div>
+            <button id="addGiftButton" style="padding: 5px;" type="button">Add</button>
+        </div>
+
+        <h3>Socila Media</h3>
+        <label for="sosmed">Sosmed</label>
+        <input type="text" placeholder="https://facebook.com" id="linkFacebook" />
+        <input type="text" placeholder="https://instagram.com" id="linkInstagram" />
+
+        <!-- Form lainnya tetap sama -->
+
+        <button type="submit" id="submit">Tambah Data</button>
+    </form>
+    <div id="loading" style="display: none;">Loading...</div>
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <p>Data berhasil ditambahkan dengan ID: <span id="newId"></span></p>
+            <button id="copyButton">Salin ID</button>
+        </div>
+    </div>
+    
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAoPrbgY5U9-ubu0r5k4T38gXi2Hcs7koQ",
+            authDomain: "invitee-next.firebaseapp.com",
+            databaseURL: "https://invitee-next-default-rtdb.firebaseio.com",
+            projectId: "invitee-next",
+            storageBucket: "invitee-next.appspot.com",
+            messagingSenderId: "167506062593",
+            appId: "1:167506062593:web:d8017e6e7e5d150c9e3f00",
+            measurementId: "G-WC95GBW0EX"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig); // Tidak menggunakan const app
+        const database = firebase.database(); // Inisialisasi Firebase Realtime Database
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const giftButton = document.getElementById('giftButton');
+    const giftContent = document.getElementById('giftContent');
+    const addGiftButton = document.getElementById('addGiftButton');
+    const savedGiftsDiv = document.getElementById('savedGifts');
+    const submitButton = document.getElementById('submitButton');
+
+    let giftData = []; // Array untuk menyimpan data yang telah ditambahkan
+
+    // Tampilkan/sembunyikan giftContent ketika tombol giftButton diklik
+    giftButton.addEventListener('click', function() {
+        let isSelected = giftButton.getAttribute('data-selected') === 'true';
+        isSelected = !isSelected;
+        giftButton.setAttribute('data-selected', isSelected.toString());
+
+        if (isSelected) {
+            giftContent.classList.remove('hidden'); // Menampilkan giftContent
+        } else {
+            giftContent.classList.add('hidden'); // Menyembunyikan giftContent
+        }
+    });
+
+    // Tambah data ke div saat tombol Add diklik
+    addGiftButton.addEventListener('click', function() {
+        const nameBank = document.getElementById('nameBank').value;
+        const noRek = document.getElementById('noRek').value;
+
+        // Cek apakah input kosong
+        if (nameBank.trim() === "" || noRek.trim() === "") {
+            alert('Mohon masukkan Nama Bank dan Nomor Rekening.');
+            return;
+        }
+
+        // Simpan data ke array giftData
+        giftData.push({
+            nameBank: nameBank,
+            noRek: noRek
+        });
+
+        // Membuat elemen baru untuk menyimpan data
+        const giftItemDiv = document.createElement('div');
+        giftItemDiv.style.display = 'flex';
+        giftItemDiv.style.marginTop = '10px';
+
+        // Isi elemen baru dengan data yang dimasukkan
+        giftItemDiv.innerHTML = `
+            <div style="width: 30%; padding-right: 25px;">
+                <strong>Nama Bank:</strong> ${nameBank}
+            </div>
+            <div>
+                <strong>Nomor Rekening:</strong> ${noRek}
+            </div>
+        `;
+
+        // Tambahkan elemen baru ke dalam savedGiftsDiv
+        savedGiftsDiv.appendChild(giftItemDiv);
+
+        // Kosongkan input setelah data ditambahkan
+        document.getElementById('nameBank').value = '';
+        document.getElementById('noRek').value = '';
+    });
+
+    // Form submit handler
+    document.getElementById('dataForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Collect data
+        const mens = document.getElementById('mens').value;
+        const grils = document.getElementById('grils').value;
+
+        const namaLengkapMens = document.getElementById('nameMens').value;
+        const namaLengkapGrils = document.getElementById('nameGrils').value;
+
+        const years = parseInt(document.getElementById('years').value);
+        const dateAll = document.getElementById('DateAll').value;
+
+        const akadDate = parseInt(document.getElementById('akadDate').value);
+        const akadDay = document.getElementById('akadDay').value;
+        const akadMount = document.getElementById('akadMount').value;
+        const akadTime = document.getElementById('akadTime').value;
+
+        const resepsiDate = parseInt(document.getElementById('ResepsiDate').value);
+        const resepsiDay = document.getElementById('ResepsiDay').value;
+        const resepsiMount = document.getElementById('ResepsiMount').value;
+        const resepsiTime = document.getElementById('ResepsiTime').value;
+
+        const akadLocation = document.getElementById('locationAkad').value;
+        const akadLink = document.getElementById('linkAkad').value;
+
+        const resepsiLocation = document.getElementById('locationResepsi').value;
+        const resepsiLink = document.getElementById('linkResepsi').value;
+
+        const ortuMens = document.getElementById("ortuMens").value;
+        const ortuPrmens = document.getElementById("ortuPrmens").value;
+        const ortuGrils = document.getElementById("ortuGrils").value;
+        const ortuPrGrils = document.getElementById("ortuPrGrils").value;
+
+        const linkFacebook = document.getElementById('linkFacebook').value;
+        const linkInstagram = document.getElementById('linkInstagram').value;
+
+        const loadingElement = document.getElementById("loading");
+        const submitButton = document.getElementById('submit');
+
+        const giftValue = giftButton.getAttribute('data-selected') === 'true'
+        console.log(giftValue);
+        
+
+        // Create data object
+        const dataToSend = {
+            name: {
+                mens: mens,
+                grils: grils
+            },
+            namaLengkap: {
+                mens: namaLengkapMens,
+                grils: namaLengkapGrils
+            },
+            date: {
+                years: years,
+                dateAll: dateAll,
+                akad: {
+                    date: akadDate,
+                    day: akadDay,
+                    mount: akadMount,
+                    time: akadTime
+                },
+                resepsi: {
+                    date: resepsiDate,
+                    day: resepsiDay,
+                    mount: resepsiMount,
+                    time: resepsiTime
+                }
+            },
+            location: {
+                akad: {
+                    location: akadLocation,
+                    link: akadLink
+                },
+                resepsi: {
+                    location: resepsiLocation,
+                    link: resepsiLink
+                }
+            },
+            parent: {
+                mens: {
+                    parentMens: ortuMens,
+                    parentGrils: ortuPrmens
+                },
+                grils: {
+                    parentMens: ortuGrils,
+                    parentGrils: ortuPrGrils
+                }
+            },
+            gift: giftValue,
+            giftData: giftData, // Mengirim semua gift yang ada dalam array giftData
+            sosmed: {
+                facebook: linkFacebook,
+                ig: linkInstagram
+            }
+        };
+
+        loadingElement.style.display = "block";
+        submitButton.disabled = false;
+
+        // Push data to Firebase
+        database.ref('wedings').push(dataToSend)
+            .then((snapshot) => {
+
+                const newId = snapshot.key;
+
+                const modal = document.getElementById('modal');
+                const newIdDisplay = document.getElementById('newId');
+                newIdDisplay.textContent = newId;
+                modal.classList.remove('hidden');
+
+                const copyButton = document.getElementById('copyButton');
+                copyButton.addEventListener('click', () => {
+                    navigator.clipboard.writeText(newId)
+                        .then(() => {
+                            alert('ID berhasil disalin ke clipboard!');
+                        })
+                        .catch(err => {
+                            console.error('Gagal menyalin ID: ', err);
+                        });
+                });
+
+                const closeButton = document.querySelector('.close-button');
+                closeButton.addEventListener('click', () => {
+                    modal.classList.add('hidden');
+                });
+
+                submitButton.disabled = true;
+                loadingElement.style.display = "none";
+
+                alert('Data berhasil ditambahkan!');
+                document.getElementById('dataForm').reset();
+                savedGiftsDiv.innerHTML = ''; // Kosongkan div savedGifts setelah submit
+                giftData = []; // Kosongkan array giftData
+            })
+            .catch((error) => {
+                console.error('Error adding data: ', error);
+                alert('Terjadi kesalahan saat menambahkan data.');
+            });
+    });
+});
+
+        
+        // let gift = false;
+        // console.log(giftValue);
+    //     document.addEventListener('DOMContentLoaded', function() {
+    //         const giftButton = document.getElementById('giftButton');
+    //         const giftContent = document.getElementById('giftContent');
+    //         const addGiftButton = document.getElementById('addGiftButton');
+    //         const savedGiftsDiv = document.getElementById('savedGifts');
+            
+    //         giftButton.addEventListener('click', function(event) {
+    //             let isSelected = giftButton.getAttribute('data-selected') === 'true'
+    //             isSelected = !isSelected
+    //             // Toggle visibility of giftContent
+    //             giftButton.setAttribute('data-selected', isSelected.toString());
+
+    //             // gift = !gift
+    //             if (isSelected) {
+    //                 giftContent.classList.remove('hidden');
+    //                 // gift = false; // Set gift to true
+    //             } else {
+    //                 giftContent.classList.add('hidden');
+    //                 // gift = false; // Set gift to false
+    //             }
+    //             return
+    //             // Prevent default form submission behavior
+    //             event.preventDefault();
+    //         });
+    //         addGiftButton.addEventListener('click', function() {
+    //     const nameBank = document.getElementById('nameBank').value;
+    //     const noRek = document.getElementById('noRek').value;
+
+    //     // Cek apakah input kosong
+    //     if (nameBank.trim() === "" || noRek.trim() === "") {
+    //         alert('Mohon masukkan Nama Bank dan Nomor Rekening.');
+    //         return;
+    //     }
+
+    //     // Membuat elemen baru untuk menyimpan data
+    //     const giftItemDiv = document.createElement('div');
+    //     giftItemDiv.style.display = 'flex';
+    //     giftItemDiv.style.marginTop = '10px';
+
+    //     // Isi elemen baru dengan data yang dimasukkan
+    //     giftItemDiv.innerHTML = `
+    //         <div style="width: 30%; padding-right: 25px;">
+    //             <strong>Nama Bank:</strong> ${nameBank}
+    //         </div>
+    //         <div>
+    //             <strong>Nomor Rekening:</strong> ${noRek}
+    //         </div>
+    //     `;
+
+    //     // Tambahkan elemen baru ke dalam savedGiftsDiv
+    //     savedGiftsDiv.appendChild(giftItemDiv);
+
+    //     // Kosongkan input setelah data ditambahkan
+    //     document.getElementById('nameBank').value = '';
+    //     document.getElementById('noRek').value = '';
+    // });
+    //     });
+
+        // Handle form submission
+        // document.getElementById('dataForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+
+        //     // Collect data
+        //     const mens = document.getElementById('mens').value;
+        //     const grils = document.getElementById('grils').value;
+
+        //     const namaLengkapMens = document.getElementById('nameMens').value;
+        //     const namaLengkapGrils = document.getElementById('nameGrils').value;
+
+        //     const years = parseInt(document.getElementById('years').value);
+        //     const dateAll = document.getElementById('DateAll').value;
+
+        //     const akadDate = parseInt(document.getElementById('akadDate').value);
+        //     const akadDay = document.getElementById('akadDay').value;
+        //     const akadMount = document.getElementById('akadMount').value;
+        //     const akadTime = document.getElementById('akadTime').value;
+
+        //     const resepsiDate = parseInt(document.getElementById('ResepsiDate').value);
+        //     const resepsiDay = document.getElementById('ResepsiDay').value;
+        //     const resepsiMount = document.getElementById('ResepsiMount').value;
+        //     const resepsiTime = document.getElementById('ResepsiTime').value;
+
+        //     const akadLocation = document.getElementById('locationAkad').value;
+        //     const akadLink = document.getElementById('linkAkad').value;
+
+        //     const resepsiLocation = document.getElementById('locationResepsi').value;
+        //     const resepsiLink = document.getElementById('linkResepsi').value;
+
+        //     const ortuMens = document.getElementById("ortuMens").value;         // Orang Tua Laki-laki dari Pria
+        //     const ortuPrmens = document.getElementById("ortuPrmens").value;     // Orang Tua Perempuan dari Pria
+        //     const ortuGrils = document.getElementById("ortuGrils").value;       // Orang Tua Laki-laki dari Wanita
+        //     const ortuPrGrils = document.getElementById("ortuPrGrils").value;   // Orang Tua Perempuan dari Wanita
+
+        //     const nameBank = document.getElementById('nameBank').value;
+        //     const noRek = document.getElementById('noRek').value;
+        //     const giftValue = giftButton.getAttribute('data-selected') === 'true'
+        //     // console.log(giftValue);
+            
+
+        //     const linkFacebook = document.getElementById('linkFacebook').value;
+        //     const linkInstagram = document.getElementById('linkInstagram').value;
+
+        //     const loadingElement = document.getElementById("loading");
+        //     // const btnSubmit = document.getElementById("submit");
+
+            
+        //     // const submitButton = form.querySelector('button[type="submit"]');
+        //     const submitButton = document.getElementById('submit');
+
+        //     // Create data object
+        //     const dataToSend = {
+        //         name: {
+        //             mens: mens,
+        //             grils: grils
+        //         },
+        //         namaLengkap: {
+        //             mens: namaLengkapMens,
+        //             grils: namaLengkapGrils
+        //         },
+        //         date: {
+        //             years: years,
+        //             dateAll: dateAll,
+        //             akad: {
+        //                 date: akadDate,
+        //                 day: akadDay,
+        //                 mount: akadMount,
+        //                 time: akadTime
+        //             },
+        //             resepsi: {
+        //                 date: resepsiDate,
+        //                 day: resepsiDay,
+        //                 mount: resepsiMount,
+        //                 time: resepsiTime
+        //             }
+        //         },
+        //         location: {
+        //             akad: {
+        //                 location: akadLocation,
+        //                 link: akadLink
+        //             },
+        //             resepsi: {
+        //                 location: resepsiLocation,
+        //                 link: resepsiLink
+        //             }
+        //         },
+        //         parent: {
+        //             mens: {
+        //                 parentMens: ortuMens,
+        //                 parentGrils: ortuPrmens 
+        //             },
+        //             grils: {
+        //                 parentMens: ortuGrils,
+        //                 parentGrils: ortuPrGrils
+        //             }
+        //         },
+        //         gift:{
+        //             gift : giftValue,
+        //             bankName: nameBank,
+        //             noBank: noRek,
+        //         },
+        //         sosmed: {
+        //             facebook: linkFacebook,
+        //             ig: linkInstagram
+        //         }
+        //     };
+        //     loadingElement.style.display = "block";
+        //     submitButton.disabled = false;
+
+
+        //     // Push data to Firebase
+        //     database.ref('wedings').push(dataToSend)
+        //         .then((snapshot) => {
+
+        //             const newId = snapshot.key;
+
+        //             const modal = document.getElementById('modal');
+        //             const newIdDisplay = document.getElementById('newId');
+        //             newIdDisplay.textContent = newId;
+        //             modal.classList.remove('hidden');
+
+        //             const copyButton = document.getElementById('copyButton');
+        //             copyButton.addEventListener('click', () => {
+        //                 navigator.clipboard.writeText(newId)
+        //                     .then(() => {
+        //                         alert('ID berhasil disalin ke clipboard!');
+        //                     })
+        //                     .catch(err => {
+        //                         console.error('Gagal menyalin ID: ', err);
+        //                     });
+        //             });
+
+        //             const closeButton = document.querySelector('.close-button');
+        //             closeButton.addEventListener('click', () => {
+        //                 modal.classList.add('hidden');
+        //             });
+
+
+        //             submitButton.disabled = true
+        //             loadingElement.style.display = "none";
+
+        //             alert('Data berhasil ditambahkan!.');
+        //             document.getElementById('dataForm').reset();
+        //         })
+        //         .catch((error) => {
+        //             console.error('Error adding data: ', error);
+        //             alert('Terjadi kesalahan saat menambahkan data.');
+        //         });
+        // });
+    </script>
+</body>
+</html>
