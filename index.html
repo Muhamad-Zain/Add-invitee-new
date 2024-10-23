@@ -81,70 +81,74 @@
         <!-- Form data yang sama seperti sebelumnya -->
         <h3>Nama</h3>
         <label for="mens">Nama Pria:</label>
-        <input required type="text" id="mens" >
+        <input  type="text" id="mens" >
         <label for="grils">Nama Wanita:</label>
-        <input required type="text" id="grils" >
+        <input  type="text" id="grils" >
         <h3>Nama Lengkap</h3>
         <label for="mens">Nama Pria:</label>
-        <input required type="text" id="nameMens"  />
+        <input  type="text" id="nameMens"  />
         <label for="grils">Nama Wanita:</label>
-        <input required type="text" id="nameGrils"  />
+        <input  type="text" id="nameGrils"  />
 
         <h3>Tanggal Pernikahan</h3>
         <label for="years">Tahun</label>
-        <input required type="number" id="years" placeholder="yyyy"/>
+        <input  type="number" id="years" placeholder="yyyy"/>
         <label for="dateAll">tgl-thn Penikahan</label>
-        <input required type="date" id="DateAll" />
+        <input  type="date" id="DateAll" />
 
         <h3>Akad</h3>
         <label for="akadDate">Tanggal Akad:</label>
-        <input required type="text" id="akadDate" placeholder="dd" >
+        <input  type="text" id="akadDate" placeholder="dd" >
         <label for="akadDay">Hari Akad:</label>
-        <input required type="text" id="akadDay" placeholder="Minggu" >
+        <input  type="text" id="akadDay" placeholder="Minggu" >
         <label for="akadMount">Bulan Akad:</label>
-        <input required type="text" id="akadMount" placeholder="Jan" >
+        <input  type="text" id="akadMount" placeholder="Jan" >
         <label for="akadTime">Waktu Akad:</label>
-        <input required type="text" id="akadTime" placeholder="00.00" >
+        <input  type="text" id="akadTime" placeholder="00.00" >
         <h3>Resepsi</h3>
         <label for="ResepsiDate">Tanggal Resepsi:</label>
-        <input required type="text" id="ResepsiDate" placeholder="dd" >
+        <input  type="text" id="ResepsiDate" placeholder="dd" >
         <label for="ResepsiDay">Hari Resepsi:</label>
-        <input required type="text" id="ResepsiDay" placeholder="Minggu" >
+        <input  type="text" id="ResepsiDay" placeholder="Minggu" >
         <label for="ResepsiMount">Bulan Resepsi:</label>
-        <input required type="text" id="ResepsiMount" placeholder="Jan" >
+        <input  type="text" id="ResepsiMount" placeholder="Jan" >
         <label for="ResepsiTime">Waktu Resepsi:</label>
-        <input required type="text" id="ResepsiTime" placeholder="00.00" >
+        <input  type="text" id="ResepsiTime" placeholder="00.00" >
 
         <h3>Lokasi</h3>
         <!-- <h3>Akad</h3> -->
         <label for="akad">Akad</label>
-        <input required type="text" placeholder="Alamat Lengkap" id="locationAkad"/>
-        <input required type="text" placeholder="https://location.maps" id="linkAkad" />
+        <input  type="text" placeholder="Alamat Lengkap" id="locationAkad"/>
+        <input  type="text" placeholder="https://location.maps" id="linkAkad" />
         
         <label for="resepsi">Resepsi</label>
-        <input required type="text" placeholder="Alamat Lengkap" id="locationResepsi"/>
-        <input required type="text" placeholder="https://location.maps" id="linkResepsi" />
+        <input  type="text" placeholder="Alamat Lengkap" id="locationResepsi"/>
+        <input  type="text" placeholder="https://location.maps" id="linkResepsi" />
 
         <h3>Nama Orang Tua</h3>
         <label for="parentMenst">Orang Tua laki-laki</label>
-        <input required type="text" id="ortuMens" placeholder="ortu laki-laki" />
-        <input required type="text" id="ortuPrmens" placeholder="ortu perempuan" />
+        <input  type="text" id="ortuMens" placeholder="ortu laki-laki" />
+        <input  type="text" id="ortuPrmens" placeholder="ortu perempuan" />
         <label for="parentMenst">Orang Tua perempuan</label>
-        <input required type="text" id="ortuGrils" placeholder="ortu laki-laki" />
-        <input required type="text" id="ortuPrGrils" placeholder="ortu perempuan" />
+        <input  type="text" id="ortuGrils" placeholder="ortu laki-laki" />
+        <input  type="text" id="ortuPrGrils" placeholder="ortu perempuan" />
 
         <h3>Gift</h3>
         <button type="button" id="giftButton" style=" background-color: rgb(11, 122, 167);" data-selected="false">Gift</button>
         <div class="hidden" id="giftContent"  >
             <div id="savedGifts"></div>
-            <div style="display: flex;"  >
+            <div>
                 <div style="width: 30%; padding-right: 25px;">
                     <label for="bankName">Nama Bank</label>
                     <input type="text" placeholder="Nama Bank" id="nameBank" />
                 </div>
                 <div>
                     <label for="noBank">Nomor</label>
-                <input type="number" placeholder="Masukkan Rekening" id="noRek" />
+                    <input type="number" placeholder="Masukkan Rekening" id="noRek" />
+                </div>
+                <div>
+                    <label for="an">Atas Nama</label>
+                    <input type="text" placeholder="Nama Pemilik Rekening" id="an" />
                 </div>
             </div>
             <div id="savedGifts"></div>
@@ -214,6 +218,7 @@
     addGiftButton.addEventListener('click', function() {
         const nameBank = document.getElementById('nameBank').value;
         const noRek = document.getElementById('noRek').value;
+        const an = document.getElementById('an').value;
 
         // Cek apakah input kosong
         if (nameBank.trim() === "" || noRek.trim() === "") {
@@ -223,6 +228,7 @@
 
         // Simpan data ke array giftData
         giftData.push({
+            an: an,
             nameBank: nameBank,
             noRek: noRek
         });
@@ -234,12 +240,10 @@
 
         // Isi elemen baru dengan data yang dimasukkan
         giftItemDiv.innerHTML = `
-            <div style="width: 30%; padding-right: 25px;">
-                <strong>Nama Bank:</strong> ${nameBank}
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: auto; width: 90%;">
+               <strong>${nameBank}: </strong> <p> ${noRek}</p>a.n.<p>${an} </p>
             </div>
-            <div>
-                <strong>Nomor Rekening:</strong> ${noRek}
-            </div>
+           
         `;
 
         // Tambahkan elemen baru ke dalam savedGiftsDiv
@@ -248,6 +252,7 @@
         // Kosongkan input setelah data ditambahkan
         document.getElementById('nameBank').value = '';
         document.getElementById('noRek').value = '';
+        document.getElementById('an').value = '';
     });
 
     // Form submit handler
@@ -360,7 +365,7 @@
 
                 const modal = document.getElementById('modal');
                 const newIdDisplay = document.getElementById('newId');
-                newIdDisplay.textContent = newId;
+                newIdDisplay.textContent = `https://invitee-next.vercel.app/${newId}/`;
                 modal.classList.remove('hidden');
 
                 const copyButton = document.getElementById('copyButton');
