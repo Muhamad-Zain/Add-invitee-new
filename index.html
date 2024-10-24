@@ -370,7 +370,7 @@
 
                 const copyButton = document.getElementById('copyButton');
                 copyButton.addEventListener('click', () => {
-                    navigator.clipboard.writeText(newId)
+                    navigator.clipboard.writeText(`https://invitee-next.vercel.app/${newId}/`)
                         .then(() => {
                             alert('ID berhasil disalin ke clipboard!');
                         })
