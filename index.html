@@ -13,7 +13,8 @@
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 20px;
-            border: 1px solid #ccc;
+            background-color: #aab8c2;
+            border: 1px solid #d3c2c2;
             border-radius: 5px;
             max-width: 376px;
             margin: auto;
@@ -26,10 +27,9 @@
             width: 95%;
             border-radius: 5px;
             background-color: #dbd8d8;
-            border: none;
-            
+            border: double;
+            border: 2px 2px solid #333030;
             padding: 10px;
-            /* margin-right: 10px; */
             margin-bottom: 10px;
         }
         button {
@@ -72,48 +72,77 @@
             font-size: 20px;
         }
 
+
+    /* Styling untuk loader */
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Animasi spin */
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
     </style>
 </head>
 <body>
-    <h2>Tambah Data Pernikahan ke Firebase wedings-1</h2>
-    <a href="https://console.firebase.google.com/project/invitee-next/database/invitee-next-default-rtdb/data/~2F" >Lihat data di firebase</a>
+    <h2>Tambah Data Pernikahan ke Firebase </h2>
+    <div>
+        <label for="Theme">Pilih Template:</label>
+        <select style="padding: 5px;" id="Theme" onchange="saveSelection()">
+            <option value="wedings">wedings-1</option>
+            <option value="wedings2">wedings-2</option>
+            <option value="wedings3">wedings-3</option>
+            <option value="wedings4">wedings-4</option>
+        </select>  
+    </div>     
+    <div style="display: flex; justify-content: space-around;">
+        <h2>Tema yang dipilih :</h2>
+        <h2 id="output" style="font-style: italic; text-decoration: underline;"></h2> 
+    </div>     
+    <a href="https://console.firebase.google.com/project/invitee-next/database/invitee-next-default-rtdb/data/~2F" style="" >Lihat data di firebase</a>
     <form id="dataForm">
         <!-- Form data yang sama seperti sebelumnya -->
         <h3>Nama</h3>
         <label for="mens">Nama Pria:</label>
-        <input  type="text" id="mens" >
+        <input  type="text" id="mens" placeholder="Nama Singkat">
         <label for="grils">Nama Wanita:</label>
-        <input  type="text" id="grils" >
+        <input  type="text" id="grils" placeholder="Nama Singkat" >
         <h3>Nama Lengkap</h3>
         <label for="mens">Nama Pria:</label>
-        <input  type="text" id="nameMens"  />
+        <input  type="text" id="nameMens" placeholder="Nama Lengkap" />
         <label for="grils">Nama Wanita:</label>
-        <input  type="text" id="nameGrils"  />
+        <input  type="text" id="nameGrils" placeholder="Nama Lengkap" />
 
         <h3>Tanggal Pernikahan</h3>
         <label for="years">Tahun</label>
-        <input  type="number" id="years" placeholder="yyyy"/>
+        <input  type="number" id="years" placeholder="YYYY"/>
         <label for="dateAll">tgl-thn Penikahan</label>
         <input  type="date" id="DateAll" />
 
         <h3>Akad</h3>
         <label for="akadDate">Tanggal Akad:</label>
-        <input  type="text" id="akadDate" placeholder="dd" >
+        <input  type="text" id="akadDate" placeholder="Tanggal : 00" >
         <label for="akadDay">Hari Akad:</label>
-        <input  type="text" id="akadDay" placeholder="Minggu" >
+        <input  type="text" id="akadDay" placeholder="Hari : Minggu" >
         <label for="akadMount">Bulan Akad:</label>
-        <input  type="text" id="akadMount" placeholder="Jan" >
+        <input  type="text" id="akadMount" placeholder="Bulan ex : Jan" >
         <label for="akadTime">Waktu Akad:</label>
-        <input  type="text" id="akadTime" placeholder="00.00" >
+        <input  type="text" id="akadTime" placeholder="Jam ex : 00.00" >
         <h3>Resepsi</h3>
         <label for="ResepsiDate">Tanggal Resepsi:</label>
-        <input  type="text" id="ResepsiDate" placeholder="dd" >
+        <input  type="text" id="ResepsiDate" placeholder="Tanggal : 00" >
         <label for="ResepsiDay">Hari Resepsi:</label>
-        <input  type="text" id="ResepsiDay" placeholder="Minggu" >
+        <input  type="text" id="ResepsiDay" placeholder="Hari :Minggu" >
         <label for="ResepsiMount">Bulan Resepsi:</label>
-        <input  type="text" id="ResepsiMount" placeholder="Jan" >
+        <input  type="text" id="ResepsiMount" placeholder="Bulan : Jan" >
         <label for="ResepsiTime">Waktu Resepsi:</label>
-        <input  type="text" id="ResepsiTime" placeholder="00.00" >
+        <input  type="text" id="ResepsiTime" placeholder="Waktu : 00.00" >
 
         <h3>Lokasi</h3>
         <!-- <h3>Akad</h3> -->
@@ -127,11 +156,11 @@
 
         <h3>Nama Orang Tua</h3>
         <label for="parentMenst">Orang Tua laki-laki</label>
-        <input  type="text" id="ortuMens" placeholder="ortu laki-laki" />
-        <input  type="text" id="ortuPrmens" placeholder="ortu perempuan" />
+        <input  type="text" id="ortuMens" placeholder="Ortu laki-laki" />
+        <input  type="text" id="ortuPrmens" placeholder="Ortu perempuan" />
         <label for="parentMenst">Orang Tua perempuan</label>
-        <input  type="text" id="ortuGrils" placeholder="ortu laki-laki" />
-        <input  type="text" id="ortuPrGrils" placeholder="ortu perempuan" />
+        <input  type="text" id="ortuGrils" placeholder="Ortu laki-laki" />
+        <input  type="text" id="ortuPrGrils" placeholder="Ortu perempuan" />
 
         <h3>Gift</h3>
         <button type="button" id="giftButton" style=" background-color: rgb(11, 122, 167);" data-selected="false">Gift</button>
@@ -164,7 +193,10 @@
 
         <button type="submit" id="submit">Tambah Data</button>
     </form>
-    <div id="loading" style="display: none;">Loading...</div>
+    <div id="loading"   
+        style=" display: none; height: 100vh; width: 60vh; background-color: rgba(0, 0, 0, 0.5); position: fixed; z-index: 30; top: 0; left: 0; " >
+        <div class="loader" style=" margin-top: 48vh; margin-left: 23vh;"></div>
+    </div>
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -172,10 +204,37 @@
             <button id="copyButton">Salin ID</button>
         </div>
     </div>
-    
+    <script>
+        function saveSelection() {
+      // Ambil elemen select
+      const selectElement = document.getElementById("Theme");
+
+      // Ambil nilai yang dipilih
+      const selectedValue = selectElement.value;
+
+      // Simpan nilai yang dipilih ke localStorage
+      localStorage.setItem("selectTheme", selectedValue);
+
+      // Tampilkan nilai yang dipilih
+      document.getElementById("output").innerText = selectedValue;
+    }
+
+    // Untuk menampilkan pilihan yang terakhir disimpan saat halaman dimuat ulang
+    window.onload = function() {
+      const savedTheme = localStorage.getItem("selectTheme");
+      if (savedTheme) {
+        document.getElementById("Theme").value = savedTheme;
+        document.getElementById("output").innerText = savedTheme;
+      }
+    }
+    </script>
 
     <script>
         // Firebase configuration
+        const output = document.getElementById('output').value
+
+        console.log(output);
+        
         const firebaseConfig = {
             apiKey: "AIzaSyAoPrbgY5U9-ubu0r5k4T38gXi2Hcs7koQ",
             authDomain: "invitee-next.firebaseapp.com",
@@ -297,7 +356,8 @@
         const submitButton = document.getElementById('submit');
 
         const giftValue = giftButton.getAttribute('data-selected') === 'true'
-        console.log(giftValue);
+
+        // const outputTheme = document.getElementById("output").innerT
         
 
         // Create data object
@@ -354,25 +414,46 @@
             }
         };
 
-        loadingElement.style.display = "block";
-        submitButton.disabled = false;
+        loadingElement.style.display = "grid";
+     
+        let selectedTheme = '';
 
+        function saveSelection() {
+            // Ambil elemen select
+            const selectElement = document.getElementById("Theme");
+
+            // Ambil nilai yang dipilih
+            selectedTheme = selectElement.value; // Simpan ke dalam variabel
+
+            // Simpan nilai yang dipilih ke localStorage
+            localStorage.setItem("selectTheme", selectedTheme);
+
+            // Tampilkan nilai yang dipilih di dalam <p>
+            document.getElementById("output").innerText = selectedTheme;
+
+            // Kirim data ke database
+            // sendDataToDatabase(selectedTheme);
+        }
+        saveSelection()
         // Push data to Firebase
-        database.ref('wedings').push(dataToSend)
+        database.ref(selectedTheme).push(dataToSend)
             .then((snapshot) => {
 
                 const newId = snapshot.key;
 
                 const modal = document.getElementById('modal');
                 const newIdDisplay = document.getElementById('newId');
-                newIdDisplay.textContent = `https://invitee-next.vercel.app/${newId}/`;
+                newIdDisplay.textContent = newId;
                 modal.classList.remove('hidden');
 
                 const copyButton = document.getElementById('copyButton');
                 copyButton.addEventListener('click', () => {
-                    navigator.clipboard.writeText(`https://invitee-next.vercel.app/${newId}/`)
+                    navigator.clipboard.writeText(newId)
                         .then(() => {
                             alert('ID berhasil disalin ke clipboard!');
+                            // closeButton.addEventListener('click', () => {
+                            modal.classList.add('hidden');
+                        // });
                         })
                         .catch(err => {
                             console.error('Gagal menyalin ID: ', err);
@@ -384,13 +465,14 @@
                     modal.classList.add('hidden');
                 });
 
-                submitButton.disabled = true;
+                // submitButton.disabled = false;
                 loadingElement.style.display = "none";
 
-                alert('Data berhasil ditambahkan!');
+                // alert('Data berhasil ditambahkan!');
                 document.getElementById('dataForm').reset();
                 savedGiftsDiv.innerHTML = ''; // Kosongkan div savedGifts setelah submit
                 giftData = []; // Kosongkan array giftData
+                selectedTheme = ''
             })
             .catch((error) => {
                 console.error('Error adding data: ', error);
@@ -398,218 +480,6 @@
             });
     });
 });
-
-        
-        // let gift = false;
-        // console.log(giftValue);
-    //     document.addEventListener('DOMContentLoaded', function() {
-    //         const giftButton = document.getElementById('giftButton');
-    //         const giftContent = document.getElementById('giftContent');
-    //         const addGiftButton = document.getElementById('addGiftButton');
-    //         const savedGiftsDiv = document.getElementById('savedGifts');
-            
-    //         giftButton.addEventListener('click', function(event) {
-    //             let isSelected = giftButton.getAttribute('data-selected') === 'true'
-    //             isSelected = !isSelected
-    //             // Toggle visibility of giftContent
-    //             giftButton.setAttribute('data-selected', isSelected.toString());
-
-    //             // gift = !gift
-    //             if (isSelected) {
-    //                 giftContent.classList.remove('hidden');
-    //                 // gift = false; // Set gift to true
-    //             } else {
-    //                 giftContent.classList.add('hidden');
-    //                 // gift = false; // Set gift to false
-    //             }
-    //             return
-    //             // Prevent default form submission behavior
-    //             event.preventDefault();
-    //         });
-    //         addGiftButton.addEventListener('click', function() {
-    //     const nameBank = document.getElementById('nameBank').value;
-    //     const noRek = document.getElementById('noRek').value;
-
-    //     // Cek apakah input kosong
-    //     if (nameBank.trim() === "" || noRek.trim() === "") {
-    //         alert('Mohon masukkan Nama Bank dan Nomor Rekening.');
-    //         return;
-    //     }
-
-    //     // Membuat elemen baru untuk menyimpan data
-    //     const giftItemDiv = document.createElement('div');
-    //     giftItemDiv.style.display = 'flex';
-    //     giftItemDiv.style.marginTop = '10px';
-
-    //     // Isi elemen baru dengan data yang dimasukkan
-    //     giftItemDiv.innerHTML = `
-    //         <div style="width: 30%; padding-right: 25px;">
-    //             <strong>Nama Bank:</strong> ${nameBank}
-    //         </div>
-    //         <div>
-    //             <strong>Nomor Rekening:</strong> ${noRek}
-    //         </div>
-    //     `;
-
-    //     // Tambahkan elemen baru ke dalam savedGiftsDiv
-    //     savedGiftsDiv.appendChild(giftItemDiv);
-
-    //     // Kosongkan input setelah data ditambahkan
-    //     document.getElementById('nameBank').value = '';
-    //     document.getElementById('noRek').value = '';
-    // });
-    //     });
-
-        // Handle form submission
-        // document.getElementById('dataForm').addEventListener('submit', function(event) {
-        //     event.preventDefault();
-
-        //     // Collect data
-        //     const mens = document.getElementById('mens').value;
-        //     const grils = document.getElementById('grils').value;
-
-        //     const namaLengkapMens = document.getElementById('nameMens').value;
-        //     const namaLengkapGrils = document.getElementById('nameGrils').value;
-
-        //     const years = parseInt(document.getElementById('years').value);
-        //     const dateAll = document.getElementById('DateAll').value;
-
-        //     const akadDate = parseInt(document.getElementById('akadDate').value);
-        //     const akadDay = document.getElementById('akadDay').value;
-        //     const akadMount = document.getElementById('akadMount').value;
-        //     const akadTime = document.getElementById('akadTime').value;
-
-        //     const resepsiDate = parseInt(document.getElementById('ResepsiDate').value);
-        //     const resepsiDay = document.getElementById('ResepsiDay').value;
-        //     const resepsiMount = document.getElementById('ResepsiMount').value;
-        //     const resepsiTime = document.getElementById('ResepsiTime').value;
-
-        //     const akadLocation = document.getElementById('locationAkad').value;
-        //     const akadLink = document.getElementById('linkAkad').value;
-
-        //     const resepsiLocation = document.getElementById('locationResepsi').value;
-        //     const resepsiLink = document.getElementById('linkResepsi').value;
-
-        //     const ortuMens = document.getElementById("ortuMens").value;         // Orang Tua Laki-laki dari Pria
-        //     const ortuPrmens = document.getElementById("ortuPrmens").value;     // Orang Tua Perempuan dari Pria
-        //     const ortuGrils = document.getElementById("ortuGrils").value;       // Orang Tua Laki-laki dari Wanita
-        //     const ortuPrGrils = document.getElementById("ortuPrGrils").value;   // Orang Tua Perempuan dari Wanita
-
-        //     const nameBank = document.getElementById('nameBank').value;
-        //     const noRek = document.getElementById('noRek').value;
-        //     const giftValue = giftButton.getAttribute('data-selected') === 'true'
-        //     // console.log(giftValue);
-            
-
-        //     const linkFacebook = document.getElementById('linkFacebook').value;
-        //     const linkInstagram = document.getElementById('linkInstagram').value;
-
-        //     const loadingElement = document.getElementById("loading");
-        //     // const btnSubmit = document.getElementById("submit");
-
-            
-        //     // const submitButton = form.querySelector('button[type="submit"]');
-        //     const submitButton = document.getElementById('submit');
-
-        //     // Create data object
-        //     const dataToSend = {
-        //         name: {
-        //             mens: mens,
-        //             grils: grils
-        //         },
-        //         namaLengkap: {
-        //             mens: namaLengkapMens,
-        //             grils: namaLengkapGrils
-        //         },
-        //         date: {
-        //             years: years,
-        //             dateAll: dateAll,
-        //             akad: {
-        //                 date: akadDate,
-        //                 day: akadDay,
-        //                 mount: akadMount,
-        //                 time: akadTime
-        //             },
-        //             resepsi: {
-        //                 date: resepsiDate,
-        //                 day: resepsiDay,
-        //                 mount: resepsiMount,
-        //                 time: resepsiTime
-        //             }
-        //         },
-        //         location: {
-        //             akad: {
-        //                 location: akadLocation,
-        //                 link: akadLink
-        //             },
-        //             resepsi: {
-        //                 location: resepsiLocation,
-        //                 link: resepsiLink
-        //             }
-        //         },
-        //         parent: {
-        //             mens: {
-        //                 parentMens: ortuMens,
-        //                 parentGrils: ortuPrmens 
-        //             },
-        //             grils: {
-        //                 parentMens: ortuGrils,
-        //                 parentGrils: ortuPrGrils
-        //             }
-        //         },
-        //         gift:{
-        //             gift : giftValue,
-        //             bankName: nameBank,
-        //             noBank: noRek,
-        //         },
-        //         sosmed: {
-        //             facebook: linkFacebook,
-        //             ig: linkInstagram
-        //         }
-        //     };
-        //     loadingElement.style.display = "block";
-        //     submitButton.disabled = false;
-
-
-        //     // Push data to Firebase
-        //     database.ref('wedings').push(dataToSend)
-        //         .then((snapshot) => {
-
-        //             const newId = snapshot.key;
-
-        //             const modal = document.getElementById('modal');
-        //             const newIdDisplay = document.getElementById('newId');
-        //             newIdDisplay.textContent = newId;
-        //             modal.classList.remove('hidden');
-
-        //             const copyButton = document.getElementById('copyButton');
-        //             copyButton.addEventListener('click', () => {
-        //                 navigator.clipboard.writeText(newId)
-        //                     .then(() => {
-        //                         alert('ID berhasil disalin ke clipboard!');
-        //                     })
-        //                     .catch(err => {
-        //                         console.error('Gagal menyalin ID: ', err);
-        //                     });
-        //             });
-
-        //             const closeButton = document.querySelector('.close-button');
-        //             closeButton.addEventListener('click', () => {
-        //                 modal.classList.add('hidden');
-        //             });
-
-
-        //             submitButton.disabled = true
-        //             loadingElement.style.display = "none";
-
-        //             alert('Data berhasil ditambahkan!.');
-        //             document.getElementById('dataForm').reset();
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error adding data: ', error);
-        //             alert('Terjadi kesalahan saat menambahkan data.');
-        //         });
-        // });
     </script>
 </body>
 </html>
